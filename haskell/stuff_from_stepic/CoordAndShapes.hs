@@ -35,3 +35,13 @@ getCell width (Coord x y) =
 
 thrice :: a -> (,,) a a a
 thrice x = (,,) x x x
+
+data Shape = Circle Double | Rectangle Double Double
+	deriving Show
+
+area :: Shape -> Double
+area (Circle r) 			= pi * r ^ 2
+area (Rectangle a b)	= a * b
+
+square :: Double -> Shape
+square a = Rectangle a a

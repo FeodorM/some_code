@@ -1,6 +1,7 @@
 module Fifth where
 
 import Data.Functor ((<$>))
+import Data.Char (isDigit)
 
 data Point3D a = Point3D a a a deriving Show
 
@@ -109,3 +110,69 @@ goWrap5 = do
 
 bla :: [Integer]
 bla = (+2) <$> [1..10]
+
+-- import Prelude hiding (Maybe, Nothing, Just)
+--
+-- data Maybe a = Nothing | Just a deriving (Eq, Show)
+--
+-- instance Monad Maybe where
+--   return = Just
+--
+--   (Just x) >>= k = k x
+--   Nothing  >>= _ = Nothing
+--
+--   (Just _) >> m = m
+--   Nothing  >> _ = Nothing
+--
+--   fail _ = Nothing
+
+data Token = Number Int | Plus | Minus | LeftBrace | RightBrace
+    deriving (Eq, Show)
+
+asToken :: String -> Maybe Token
+asToken s | all isDigit s = Just $ Number $ read s
+          | s == "+"  = Just Plus
+          | s == "-"  = Just Minus
+          | s == "("  = Just LeftBrace
+          | s == ")"  = Just RightBrace
+          | otherwise = Nothing
+
+tokenize :: String -> Maybe [Token]
+tokenize str  = f $ words str
+  where
+    f :: [String] -> Maybe [Token]
+    f [] = Just []
+    f (x:xs) = do
+      token <- asToken x
+      xss <- f xs
+      return $ token : xss
+-- another solution
+-- tokenize str  = f $ words str
+--   where
+--     f [] = Just []
+--     f (x:xs) | f xs == Nothing      = Nothing
+--              | asToken x /= Nothing = Just $ token : xss
+--              | otherwise            = Nothing
+--       where
+--         (Just token) = asToken x
+--         (Just xss) = f xs
+
+-- nextPositionsN :: Board -> Int -> (Board -> Bool) -> [Board]
+-- nextPositionsN board 0 p | p board     = [board]
+--                          | otherwise   = []
+-- nextPositionsN board n p | n < 0       = []
+-- nextPositionsN board n p = do
+--     b <- nextPositions board
+--     bb <- nextPositionsN b (n - 1) p
+--     True <- return $ p bb
+--     return bb
+
+pythagoreanTriple :: Int -> [(Int, Int, Int)]
+pythagoreanTriple x
+  | x <= 0    = []
+  | otherwise = do
+    a <- [1..x]
+    b <- [1..x]
+    c <- [1..x]
+    True <- return $ c <= x && a < b && a^2 + b^2 == c^2
+    return (a, b, c)
