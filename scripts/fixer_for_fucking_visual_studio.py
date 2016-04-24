@@ -16,14 +16,10 @@ def rename_file(path, name):
     move(temp_name, name + '.cpp')
 
 
-current_dir = getcwd()
-w = walk(current_dir)
+w = walk(getcwd())
 next(w)
 for path, _, files in w:
-    # print(path, files)
     files = [file for file in files if file.endswith(('.cpp', '.h'))]
-    # print(files)
-    # print()
     if not files:
         continue
     take_up_headers_and_cpp(path, path[path.rfind('\\') + 1:], files)
