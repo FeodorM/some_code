@@ -27,7 +27,7 @@ def func(examples, start_weight=(0, 0, 0)):
 
 if __name__ == '__main__':
     examples = {
-        (1, .3):  True,
+        (1, .3): True,
         (.4, .5): True,
         (.7, .8): False
     }
