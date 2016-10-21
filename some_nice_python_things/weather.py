@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 
 import pyowm
 import datetime
@@ -21,11 +21,12 @@ def temperature_to_str(weather):
     rain = weather.get_rain()
     if not rain:
         rain = 'no rain'
-    return "{}: {}, {}C, {}\n".format(
+    return "{}: {}, {}C, {}, humidity: {}%\n".format(
         to_human_time(weather.get_reference_time()).time(),
         weather.get_detailed_status(),
         weather.get_temperature('celsius')['temp'],
-        rain
+        rain,
+	    weather.get_humidity()
     )
 
 
@@ -72,7 +73,10 @@ def current_weather():
 if __name__ == '__main__':
     import sys
     arg = '' if len(sys.argv) == 1 else sys.argv[1]
-    if arg == '' or arg == '-n' or arg == '--now':
+    if arg == '':
+        current_weather()
+        forecast()
+    elif arg == '-n' or arg == '--now':
         current_weather()
     elif arg == '-f' or arg == '--forecast':
         forecast()
