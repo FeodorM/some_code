@@ -26,7 +26,7 @@ def temperature_to_str(weather):
         weather.get_detailed_status(),
         weather.get_temperature('celsius')['temp'],
         rain,
-	    weather.get_humidity()
+        weather.get_humidity()
     )
 
 
